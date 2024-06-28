@@ -16,8 +16,25 @@ const UserSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please provide a password']
-    }
-},{
+    },
+    age: {
+        type: Number,
+        required: [true, 'Please provide an age'],
+    },
+    avatar: {
+        type: String,
+        default: 'https://cdn-icons-png.flaticon.com/512/3135/3135715.png'
+    },
+    role: {
+        type: String,
+        enum: ['user', 'admin'],
+        default: 'user'
+    },
+    address: {
+        type: String,
+        trim: true
+    },
+}, {
     timestamps: true
 })
 
