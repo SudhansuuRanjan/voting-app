@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import axios from 'axios';
+import useAuth from '../hooks/useAuth';
 
 const Login = () => {
+  const { handleLogin } = useAuth()
+
 
   const [data, setData] = useState({
     email: '',
@@ -21,11 +23,10 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post('http://localhost:8000/api/auth/login', data)
-      console.log(response.data)
+      const response = await handleLogin(data);
       setResponse(response.data)
     } catch (error) {
-      console.log(error.response.data)
+      console.log(error.response.data);
     }
   }
 
