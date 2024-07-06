@@ -76,6 +76,14 @@ const getUserProfile = asyncHandler(async (req, res) => {
 })
 
 
+const getUserById = async (id) => {
+    try {
+        const user = await User.findById(id).select('-password');
+        return user;
+    } catch (error) {
+        return null;
+    }
+}
 
 
-module.exports = { registerUser, handleLogin, getUserProfile };
+module.exports = { registerUser, handleLogin, getUserProfile, getUserById };
