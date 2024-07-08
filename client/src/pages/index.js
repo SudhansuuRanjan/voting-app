@@ -7,5 +7,6 @@ import NotFound from './NotFound';
 import EnterCandidates from './EnterCandidates';
 import ForgotPassword from './ForgotPassword';
 import Campaign from './Campaign';
+import CreateCampaign from './CreateCampaign';
 
-export { About, Dashboard, Home, Login, Signup, NotFound, EnterCandidates, ForgotPassword, Campaign };
+export { CreateCampaign, About, Dashboard, Home, Login, Signup, NotFound, EnterCandidates, ForgotPassword, Campaign };

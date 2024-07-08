@@ -5,6 +5,7 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const connectDB = require('./config/db');
+
 const userRoutes = require('./routes/user.route');
 const campaignRoutes = require('./routes/campaign.route');
 const candidateRoutes = require('./routes/candidate.route');

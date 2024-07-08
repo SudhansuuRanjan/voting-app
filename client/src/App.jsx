@@ -1,7 +1,7 @@
 import './App.css'
 import Layout from './components/Layout'
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import { About, Dashboard, Home, Login, Signup, NotFound, EnterCandidates, ForgotPassword, Campaign } from './pages'
+import { CreateCampaign, About, Dashboard, Home, Login, Signup, NotFound, EnterCandidates, ForgotPassword, Campaign } from './pages'
 import { AuthProvider } from './context/AuthContext'
 import PrivateComponent from './components/PrivateComponent'
 
@@ -26,6 +26,10 @@ function App() {
 
             <Route path="/dashboard" element={<PrivateComponent />} >
               <Route path="/dashboard" element={<Dashboard />} />
+            </Route>
+
+            <Route path="/create-campaign" element={<PrivateComponent />} >
+              <Route path="/create-campaign" element={<CreateCampaign />} />
             </Route>
 
             <Route path="/campaign/:campaignId" element={<PrivateComponent />} >

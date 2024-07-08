@@ -2,11 +2,12 @@ import React, { useState } from 'react'
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
 
+
 const Dashboard = () => {
   const [data, setData] = useState(null);
 
   const categories = ['All', 'Technology', 'Health', 'Education', 'Environment', 'Human Rights', 'Animals', 'Arts', 'Sports', 'Community', 'AI', 'Career', 'Other']
-
+  
   const fetchData = async () => {
     try {
       const response = await api.get('/auth/profile')
@@ -52,7 +53,6 @@ const Dashboard = () => {
       creatorAvatar: "https://github.com/SudhansuuRanjan/twitter-spaces-frontend/blob/main/src/profile.png?raw=true",
     },
   ]
-
 
   return (
     <div>
@@ -101,32 +101,32 @@ const Dashboard = () => {
         {
           campaigns.map((campaign, index) => (
             <div className='bg-white p-2 rounded-3xl border lg:w-96 md:w-[28rem] w-full border-slate-200' key={campaign._id}>
-              <Link to={`/campaign/${campaign._id}`}> 
-              <div className='bg-slate-100 rounded-2xl p-2'>
-                <h3 className='font-bold'>
-                  {campaign.name}
-                </h3>
+              <Link to={`/campaign/${campaign._id}`}>
+                <div className='bg-slate-100 rounded-2xl p-2'>
+                  <h3 className='font-bold'>
+                    {campaign.name}
+                  </h3>
 
-                <p className='text-sky-600 text-sm font-medium'>
-                  {campaign.category} . <span className='text-gray-600'>
-                    {campaign.totalVoters} votes polled
-                  </span>
-                </p>
+                  <p className='text-sky-600 text-sm font-medium'>
+                    {campaign.category} . <span className='text-gray-600'>
+                      {campaign.totalVoters} votes polled
+                    </span>
+                  </p>
 
-                <p className='text-gray-500 text-sm pb-2 pt-1'>
-                  {campaign.description}
-                </p>
+                  <p className='text-gray-500 text-sm pb-2 pt-1'>
+                    {campaign.description}
+                  </p>
 
-                <p className='bg-gray-300 rounded-lg w-fit text-sm font-medium px-2 py-0.5 text-gray-500'>
-                 Expires on : {
-                  new Date(campaign.expiresAt).toLocaleDateString('en-IN', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })
-                 }
-                </p>
-              </div>
+                  <p className='bg-gray-300 rounded-lg w-fit text-sm font-medium px-2 py-0.5 text-gray-500'>
+                    Expires on : {
+                      new Date(campaign.expiresAt).toLocaleDateString('en-IN', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                      })
+                    }
+                  </p>
+                </div>
               </Link>
 
               <div className='flex gap-2 items-center justify-between py-2 pt-4'>
@@ -138,7 +138,7 @@ const Dashboard = () => {
                 </div>
 
                 <div className='flex gap-2 items-center'>
-                  <div className={`text-white ${campaign.status === 'live'? 'bg-green-500': campaign.status === 'upcoming' ? 'bg-orange-500': 'bg-rose-500'} rounded-full px-3 py-0.5 text-sm font-medium`}>
+                  <div className={`text-white ${campaign.status === 'live' ? 'bg-green-500' : campaign.status === 'upcoming' ? 'bg-orange-500' : 'bg-rose-500'} rounded-full px-3 py-0.5 text-sm font-medium`}>
                     {campaign.status}
                   </div>
                 </div>

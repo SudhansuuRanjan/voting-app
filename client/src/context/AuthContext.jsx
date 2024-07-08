@@ -14,7 +14,7 @@ const AuthProvider = ({ children }) => {
         try {
             const res = await AuthService.login(user.email, user.password);
             setUser(res.data);
-            navigate("/dashboard");
+            navigate("/");
         } catch (error) {
             throw new Error(error.message);
         }

@@ -25,7 +25,7 @@ const CampaignSchema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ['active', 'inactive','completed','upcoming'],
+        enum: ['active', 'inactive', 'completed', 'upcoming'],
         default: 'active'
     },
     createdBy: {
@@ -36,7 +36,12 @@ const CampaignSchema = new mongoose.Schema({
     candidates: [{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Candidate'
-    }]
+    }],
+    category: {
+        type: String,
+        enum: ['Technology', 'Health', 'Education', 'Environment', 'Human Rights', 'Animals', 'Arts', 'Sports', 'Community', 'AI', 'Career', 'Other'],
+        required: true
+    }
 }, {
     collection: 'campaigns',
     timestamps: true,

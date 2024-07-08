@@ -68,7 +68,7 @@ const getCampaignById = asyncHandler(async (req, res) => {
  * @returns {Promise<void>}
  */
 const createCampaign = asyncHandler(async (req, res) => {
-    const { name, description, start_date, end_date, status } = req.body;
+    const { name, description, start_date, end_date, status, category, candidates } = req.body;
 
     const campaign = new Campaign({
         name,
@@ -77,8 +77,9 @@ const createCampaign = asyncHandler(async (req, res) => {
         end_date,
         createdBy: req.user._id,
         status,
-        candidates: [],
-        total_votes: 0
+        candidates,
+        total_votes: 0,
+        category
     });
 
     try {
@@ -100,7 +101,7 @@ const createCampaign = asyncHandler(async (req, res) => {
  */
 const updateCampaign = asyncHandler(async (req, res) => {
     // Function implementation here
-    const { name, description, start_date, end_date, status } = req.body;
+    const { name, description, start_date, end_date, status, category, candidates } = req.body;
 
     const campaign = await Campaign.findById(req.params.id);
 
@@ -110,6 +111,8 @@ const updateCampaign = asyncHandler(async (req, res) => {
         campaign.start_date = start_date;
         campaign.end_date = end_date;
         campaign.status = status;
+        campaign.category = category;
+        campaign.candidates = candidates;
 
         const updatedCampaign = await campaign.save();
         res.json(updatedCampaign);
