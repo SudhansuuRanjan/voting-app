@@ -31,7 +31,8 @@ const getCampaigns = asyncHandler(async (req, res) => {
         const campaigns = await Campaign.find({ ...keyword })
             .limit(pageSize)
             .skip(pageSize * (page - 1))
-            .populate('createdBy');
+            .populate('createdBy')
+            .populate('candidates');
 
         res.json({ campaigns, page, pages: Math.ceil(count / pageSize) });
     } catch (error) {
@@ -86,7 +87,8 @@ const createCampaign = asyncHandler(async (req, res) => {
         const createdCampaign = await campaign.save();
         res.status(201).json(createdCampaign);
     } catch (error) {
-        res.status(400).json({ message: error.message });
+        console.log(error);
+        res.status(400).json({ message: error.message, error });
     }
 })
 

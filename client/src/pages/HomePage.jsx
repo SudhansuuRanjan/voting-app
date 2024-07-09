@@ -1,65 +1,29 @@
-import React, { useState } from 'react'
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 
 const HomePage = () => {
-  const [data, setData] = useState(null);
 
   const categories = ['All', 'Technology', 'Health', 'Education', 'Environment', 'Human Rights', 'Animals', 'Arts', 'Sports', 'Community', 'AI', 'Career', 'Other']
-  
-  const fetchData = async () => {
-    try {
-      const response = await api.get('/auth/profile')
-      console.log(response.data)
-      setData(response.data)
-    } catch (error) {
-      console.log(error.response.data)
-    }
+
+  const fetchCampaigns = async () => {
+      const response = await api.get('/campaigns')
+      return response.data;
   }
 
-  const campaigns = [
-    {
-      name: "AI for Good",
-      category: "AI",
-      _id: "1",
-      description: "AI for Good is a campaign to use AI to help people in need.",
-      totalVoters: 100,
-      expiresAt: "2022-12-31T23:59:59.999Z",
-      status: "live",
-      createdBy: "John Doe",
-      creatorAvatar: "https://github.com/SudhansuuRanjan/twitter-spaces-frontend/blob/main/src/profile.png?raw=true",
-    },
-    {
-      name: "Save the Whales",
-      _id: "2",
-      category: "Animals",
-      description: "Save the Whales is a campaign to help save the whales.",
-      totalVoters: 200,
-      expiresAt: "2022-12-31T23:59:59.999Z",
-      status: "upcoming",
-      createdBy: "Jane Doe",
-      creatorAvatar: "https://github.com/SudhansuuRanjan/twitter-spaces-frontend/blob/main/src/profile.png?raw=true",
-    },
-    {
-      name: "Clean the Beach",
-      _id: "3",
-      category: "Environment",
-      description: "Clean the Beach is a campaign to help clean the beach.",
-      totalVoters: 300,
-      expiresAt: "2022-12-31T23:59:59.999Z",
-      status: "expired",
-      createdBy: "John Smith",
-      creatorAvatar: "https://github.com/SudhansuuRanjan/twitter-spaces-frontend/blob/main/src/profile.png?raw=true",
-    },
-  ]
+  const { isLoading, data, error } = useQuery({
+    queryKey: ['campaigns'],
+    queryFn: fetchCampaigns,
+    staleTime: 1000 * 60 * 5,
+  })
 
   return (
     <div>
       <div className='flex flex-col w-full justify-center items-center'>
         <div className='flex gap-4 items-center justify-center'>
           <input className='bg-gray-100 border border-gray-200 rounded-full outline-none px-4 font-medium py-2 w-72' placeholder='Search Campaigns' type="text" />
-          <button className='bg-sky-500 active:bg-sky-600 shadow text-white rounded-full px-4 py-2' onClick={fetchData}>Search</button>
+          <button className='bg-sky-500 active:bg-sky-600 shadow text-white rounded-full px-4 py-2' onClick={() => { }}>Search</button>
         </div>
 
         <div className='lg:w-[42rem] md:w-[32rem] px-5 mt-10'>
@@ -99,7 +63,7 @@ const HomePage = () => {
 
       <div className='flex items-center justify-center px-10 mt-10 flex-wrap gap-6'>
         {
-          campaigns.map((campaign, index) => (
+          isLoading ? <p>Loading...</p> : data?.campaigns.map((campaign, index) => (
             <div className='bg-white p-2 rounded-3xl border lg:w-96 md:w-[28rem] w-full border-slate-200' key={campaign._id}>
               <Link to={`/campaign/${campaign._id}`}>
                 <div className='bg-slate-100 rounded-2xl p-2'>
@@ -109,7 +73,7 @@ const HomePage = () => {
 
                   <p className='text-sky-600 text-sm font-medium'>
                     {campaign.category} . <span className='text-gray-600'>
-                      {campaign.totalVoters} votes polled
+                      {campaign.total_votes} votes polled
                     </span>
                   </p>
 
@@ -119,7 +83,7 @@ const HomePage = () => {
 
                   <p className='bg-gray-300 rounded-lg w-fit text-sm font-medium px-2 py-0.5 text-gray-500'>
                     Expires on : {
-                      new Date(campaign.expiresAt).toLocaleDateString('en-IN', {
+                      new Date(campaign.end_date).toLocaleDateString('en-IN', {
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric'
@@ -131,9 +95,9 @@ const HomePage = () => {
 
               <div className='flex gap-2 items-center justify-between py-2 pt-4'>
                 <div className='flex gap-2 items-center'>
-                  <img className='rounded-full w-8 h-8' src={campaign.creatorAvatar} alt="avatar" />
+                  <img className='rounded-full w-8 h-8' src={campaign.createdBy.avatar} alt="avatar" />
                   <p className='text-gray-500 font-medium'>
-                    {campaign.createdBy}
+                    {campaign.createdBy.name}
                   </p>
                 </div>
 

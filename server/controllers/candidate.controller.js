@@ -60,10 +60,10 @@ const addCandidate = asyncHandler(async (req, res) => {
 
 
 const addMultipleCandidates = asyncHandler(async (req, res) => {
-    const candidates = req.body;
-    const campaignId = req.params.id;
+    const candidates = req.body.candidates;
+    const campaignId = req.params.campaignId;
 
-    const campaign = await findCampaignById(campaignId);
+    const campaign = await Campaign.findById(campaignId);
 
     if (!campaign) {
         res.status(404);
@@ -75,17 +75,22 @@ const addMultipleCandidates = asyncHandler(async (req, res) => {
         throw new Error('You are not authorized to add candidate to this campaign');
     }
 
+    console.log(candidates);
+
     try {
         const createdCandidates = await Candidate.insertMany(candidates.map(candidate => ({
-            ...candidate,
             campaign: campaignId,
-            votes: 0
+            votes: 0,
+            name: candidate,
+            image: 'https://placehold.co/400'
         })));
+
+        await Campaign.findByIdAndUpdate(campaignId, { $push: { candidates: createdCandidates.map(candidate => candidate._id) } });
 
         res.status(201).json(createdCandidates);
     } catch (error) {
         res.status(500);
-        throw new Error('Server Error');
+        res.json({ message: error.message });
     }
 })
 

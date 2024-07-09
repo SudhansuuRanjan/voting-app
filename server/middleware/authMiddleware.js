@@ -11,7 +11,8 @@ const protect = asyncHandler(async (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = await getUserById(decoded.id);
+        // req.user = await getUserById(decoded.id);
+        req.user = decoded;
         next();
     } catch (error) {
         return res.status(401).json({ message: "Not authorized to access this route", error: error.message });
